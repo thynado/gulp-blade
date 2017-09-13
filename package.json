@@ -1,0 +1,19 @@
+{
+  "name": "gulp-blade",
+  "version": "1.0.0",
+  "description": "Gulp plugin for parsing Blade templates to safe, flat PHP files. Heavily inspired by Laravel Blade and Jekyll.",
+  "main": "index.js",
+  "valet": "tests/results",
+  "author": {
+    "name": "Nathan Thomas",
+    "url": "http://thynado.com"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "js-yaml": "^3.8.4",
+    "through2": "^2.0.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}

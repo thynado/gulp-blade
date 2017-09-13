@@ -1,0 +1,21 @@
+---
+layout: master
+title: Hello, friend!
+description: Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+---
+
+<main role="main">
+    <h1>
+        {{ $page->title or "Ahoy!" }}
+    </h1>
+</main>
+
+@component ("modal")
+    @slot("id", "my-modal")
+    @slot("title", "Modal for: $page->title")
+
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
+    </p>
+@endcomponent

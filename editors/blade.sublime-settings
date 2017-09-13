@@ -1,0 +1,8 @@
+{
+    "auto_complete_selector": "text.blade",
+    "auto_complete_triggers": [ 
+        {
+            "selector": "text.blade", "characters": "\\@"
+        }
+    ]
+}

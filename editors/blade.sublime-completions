@@ -1,0 +1,25 @@
+{
+   "scope": "text.blade",
+   "completions":
+   [
+      { "trigger": "include",      "contents": "include(\"$1\")" },
+      { "trigger": "if",           "contents": "if ($1)\n\t$0\n@endif" },
+      { "trigger": "break",        "contents": "break($0)" },
+      { "trigger": "component",    "contents": "component (\"$1\")\n\t$0\n@endcomponent" },
+      { "trigger": "continue",     "contents": "break($0)" },
+      { "trigger": "else",         "contents": "else\n\t$0" },
+      { "trigger": "elseif",       "contents": "elseif ($1)\n\t$0" },
+      { "trigger": "empty",        "contents": "empty ($1)\n\t$0\n@endempty" },
+      { "trigger": "for",          "contents": "for ($1)\n\t$0\n@endfor" },
+      { "trigger": "foreach",      "contents": "foreach ($1)\n\t$0\n@endforeach" },
+      { "trigger": "isset",        "contents": "isset ($1)\n\t$0\n@endisset" },
+      { "trigger": "push",         "contents": "push (\"$1\")\n\t$0\n@endpush" },
+      { "trigger": "section",      "contents": "section (\"$1\")\n\t$0\n@endsection" },
+      { "trigger": "slot",         "contents": "slot (\"$1\")\n\t$0\n@endslot" },
+      { "trigger": "slot - small", "contents": "slot(\"$1\", \"$0\")" },
+      { "trigger": "stack",        "contents": "stack(\"$0\")" },
+      { "trigger": "unless",       "contents": "unless ($1)\n\t$0\n@endunless" },
+      { "trigger": "while",        "contents": "while ($1)\n\t$0\n@endwhile" },
+      { "trigger": "yield",        "contents": "yield(\"$0\")" }
+   ]
+}

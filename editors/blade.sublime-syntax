@@ -1,0 +1,130 @@
+%YAML 1.2
+---
+name: Blade
+file_extensions: [blade, blade.php]
+scope: text.blade
+contexts:
+  main:
+    - match: (?=(?<!\s)---\n$)
+      push: front-matter
+    - match: ''
+      push:
+        - include: 'scope:text.html.basic'
+        - meta_scope: text.html.blade
+          pop: true
+      with_prototype:
+
+        - match: '{{--'
+          captures:
+            0: punctuation.definition.comment.begin.blade
+          push:
+            - meta_scope: comment.block.html.blade
+            - match: '--}}'
+              scope: punctuation.definition.comment.end.blade
+              pop: true
+            - match: "--"
+              scope: invalid.illegal.bad-comments-or-CDATA.html.blade
+
+        - match: '\{(!!)|(\{\{\{?)-?'
+          captures:
+            0: punctuation.section.embedded.begin.blade
+          push:
+            - meta_scope: entity.name.tag.blade
+            - meta_content_scope: source.php.blade
+            - match: '-?(\}?\}\})|(!!)\}'
+              captures:
+                0: punctuation.section.embedded.end.blade
+                1: punctuation.section.embedded.end.blade
+              pop: true
+            - include: 'scope:source.php'
+
+        - match: '@\{\{\{?-?'
+          captures:
+            0: punctuation.section.embedded.ignore.begin.blade
+          push:
+            - meta_scope: 'scope:text.html.basic'
+            - meta_content_scope: 'scope:text.html.basic'
+            - match: '-?\}?\}\}'
+              captures:
+                0: punctuation.section.embedded.ignore.end.blade
+                1: punctuation.section.embedded.ignore.end.blade
+              pop: true
+
+        - match: '((\s{0}|^)(@)(php)(?![^?]*\(*\))|<\?(?i:php|=)?)(?![^?]*\?>)'
+          scope: punctuation.section.embedded.begin.php
+          captures:
+              0: punctuation.section.embedded.begin.php
+              3: constant.other.inline-data.html
+              4: entity.name.tag.block.any.html
+          push:
+            - meta_content_scope: source.php
+            - meta_scope: meta.embedded.block.blade.php
+            - include: 'scope:source.php'
+          with_prototype:
+          - match: (?=\?>|(\s{0}|^)(@)(endphp))(\?>|(\s{0}|^)(@)(endphp))
+            captures:
+              0: punctuation.section.embedded.end.php
+              6: constant.other.inline-data.html
+              7: entity.name.tag.block.any.html
+            pop: true
+
+        - match: '<\?(?i:php|=)?'
+          scope: punctuation.section.embedded.begin.php
+          push:
+            - meta_content_scope: source.php.blade
+            - meta_scope: meta.embedded.line.blade.php
+            - include: 'scope:source.php'
+          with_prototype:
+          - match: (?=\?>)(\?>)
+            captures:
+              0: punctuation.section.embedded.end.php
+            pop: true
+
+        - match: '(\s{0}|^)(\@)\b([A-Za-z]+)\b(?=(|\s*|)\()'
+          captures:
+            0: punctuation.section.embedded.php
+            2: constant.other.inline-data.html
+            3: entity.name.tag.block.any.html
+          push:
+            - meta_scope: custom.compiler.blade.php
+            - meta_content_scope: source.php.blade
+            - match: '(?<=\))'
+              pop: true
+            - include: 'scope:source.php'
+
+        - match: '(\s{0}|^)(\@)\b(else|break|continue|end[A-Za-z]+)\b'
+          scope: custom.compiler.blade.php
+          captures:
+            0: punctuation.section.embedded.php
+            2: constant.other.inline-data.html
+            3: entity.name.tag.block.any.html
+          pop: false
+
+        - match: '(\s{0}|^)(\@)\b([a-zA-Z_]+)\b(?=(|\s*|)\()'
+          captures:
+            0: support.function
+            2: constant.other.inline-data.html
+          push:
+            - meta_scope: custom.compiler.blade.php
+            - meta_content_scope: source.php.blade
+            - match: '(?<=\))'
+              pop: true
+            - include: 'scope:source.php'
+
+        - match: '(^|[ ])(\s{0}|^)(\@)\b([a-zA-Z_]+)\b(\s?)\b'
+          scope: custom.compiler.blade.php
+          captures:
+            0: support.function
+            2: constant.other.inline-data.html
+          pop: false
+  front-matter:
+    - match: (?<!\s)---\n$
+      push:
+        - meta_scope: markup.raw.yaml.front-matter
+        - meta_content_scope: source.yaml
+        - match: ^---\s
+          pop: true
+        - include: scope:source.yaml
+    - match: ""
+      pop: true
+      push: body
