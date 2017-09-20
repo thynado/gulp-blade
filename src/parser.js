@@ -84,6 +84,10 @@ module.exports = (file, settings) => {
                 match += " or \"\"";
                 match = match.replace(/ or /g, ' ?? ');
 
+                if (settings.safeOutput === false) {
+                    return `<?php echo ${match}; ?>`;
+                }
+
                 return `<?php echo htmlspecialchars(${match}, ENT_QUOTES, 'UTF-8', false); ?>`;
             })
     );
