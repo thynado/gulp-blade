@@ -1,6 +1,6 @@
 {
   "name": "gulp-blade",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Gulp plugin for parsing Blade templates to safe, flat PHP files. Heavily inspired by Laravel Blade and Jekyll.",
   "main": "index.js",
   "valet": "tests/results",
