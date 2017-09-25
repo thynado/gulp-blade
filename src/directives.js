@@ -24,16 +24,12 @@ function loopling (file, token) {
             return;
         }
 
-        updates = updates.replace(new RegExp(`@${token} ?\\(.*as (.*?)\\)`), [
-            `<?php $loopData = ${varname[1]}; $loop = (object) ["index" => -1, "iteration" => 0, "remaining" => count((array) $loopData), "count" => count((array) $loopData)]; ?>`,
-            `<?php ${token} ($loopData as $1) : ?>`,
-            "<?php $loop->index = $loop->index + 1; $loop->iteration += 1; $loop->remaining -= 1; $loop->first = ($loop->iteration == 1 ? true : false); $loop->last = ($loop->iteration === $loop->count ? true : false); $loop->odd = !! ($loop->iteration % 2); $loop->even = !($loop->iteration % 2); ?>"
-        ].join("\n"));
+        updates = updates.replace(new RegExp(`@${token} ?\\(.*as (.*?)\\)`), `<?php ${token} (${varname[1]} as $1) : ?>`);
 
         file.content = file.content.replace(match, updates);
     });
 
-    file.content = file.content.replace(new RegExp(`@end${token}`, 'g'), `<?php end${token}; unset($loop); unset($loopData); ?>`);
+    file.content = file.content.replace(new RegExp(`@end${token}`, 'g'), `<?php end${token}; ?>`);
 
     return file;
 }
