@@ -18,7 +18,7 @@ gulp.task("blade", () => {
  * @return void
  */
 gulp.task("watch", () => {
-    gulp.watch("tests/source/**/*.blade", ["blade"]);
+    gulp.watch("tests/source/**/*.blade", gulp.parallel("blade"));
 });
 
 /**
@@ -26,4 +26,4 @@ gulp.task("watch", () => {
  *
  * @return void
  */
-gulp.task("default", ["blade", "watch"]);
+gulp.task("default", gulp.series("blade", "watch"));

@@ -55,7 +55,7 @@ module.exports = (file, settings) => {
     /**
      * Create sanitized and non-sanitized output.
      */
-    file.contents = new Buffer(
+    file.contents = Buffer.from(
         file.content
 
             .replace(/{!!\s*(.+?)\s*!!}/g, (context, match) => {

@@ -38,7 +38,7 @@ module.exports = (settings = {}) => {
                  *
                  * @return string
                  */
-                file.contents = new Buffer(
+                file.contents = Buffer.from(
                     file.contents.toString().replace(/^---\n?([\S\s]*?)\n?---\n?/, (context, match) => {
                         file.blade.settings = yaml.load(match) || {};
 
@@ -121,7 +121,7 @@ module.exports = (settings = {}) => {
                  * 
                  * @type Buffer
                  */
-                file.contents = new Buffer([
+                file.contents = Buffer.from([
                     (settings.buffer && "<?php ob_start(); ?>"),
                     `<?php ob_start(); ?>${JSON.stringify(file.blade.settings)}<?php $page = json_decode(ob_get_clean()); ?>`,
                     `<?php $segments = explode("/", preg_replace("/^\\/|\\/$/", "", parse_url($_SERVER["REQUEST_URI"])["path"])); $segment = (object) ["one" => "", "two" => "", "three" => "", "four" => "", "five" => "", "six" => ""]; array_map(function ($value, $key) use ($segment) { $target = ["one", "two", "three", "four", "five", "six"][$key]; $segment->$target = $value; }, $segments, array_keys($segments)); $segments = join("/", $segments); $post = (object) $_POST; $get = (object) $_GET; $server = (object) array_change_key_case($_SERVER); $sections = []; $stacks = []; $page->url = "${file.url}"; $page->modified = date(${Date.now() / 1e3});`,
